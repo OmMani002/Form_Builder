@@ -29,6 +29,7 @@ import * as z from "zod";
 import { useForm } from 'react-hook-form';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
+import { toast } from './ui/use-toast';
 
 const formSchema = z.object({
   name: z.string().min(4),
@@ -47,9 +48,15 @@ function CreateFormBtn() {
     try {
       
     } catch (error) {
-      
+      toast({
+        title: "Error",
+        description: "Something went wrong, Please try again",
+        variant: "destructive"
+      });
     }
   }
+
+  
   return <Dialog>
     <DialogTrigger asChild>
       <Button>Create new Form</Button>
@@ -94,9 +101,11 @@ function CreateFormBtn() {
       <DialogFooter>
         <Button 
           onClick={() => {
-            form.handleSubmit(onSubmit);
+            form.handleSubmit(onSubmit); 
           }}
-          disabled={form.formState.isSubmitting} className="w-full mt-4">
+          disabled={form.formState.isSubmitting} 
+          className="w-full mt-4"
+        >
           { !form.formState.isSubmitting && <span>Save</span> }
           { form.formState.isSubmitting && (
             <ImSpinner2 className="animate-spin"/>
