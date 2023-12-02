@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { formSchemaType } from "@/schemas/form";
+import { formSchema, formSchemaType } from "@/schemas/form";
 import { currentUser } from "@clerk/nextjs"
 import { string, undefined } from "zod";
 
@@ -41,6 +41,13 @@ export async function GetFormStats() {
 }
 
 export async function CreateForm(data: formSchemaType) {
-    console.log("NAME ON SERVER", data.name)
+    const validation = formSchema.safeParse(data);
+    if(!validation.success){
+        throw new Error("form not valid")
+    }
+    const user = await currentUser();
+    if(!user){
+        throw new UserNotFoundErr();
+    }
 }
 

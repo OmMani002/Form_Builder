@@ -32,7 +32,6 @@ import { CreateForm } from "@/actions/form";
 
 
 function CreateFormBtn() {
-
   const form = useForm<formSchemaType>({
     resolver: zodResolver(formSchema),
   });
@@ -40,6 +39,10 @@ function CreateFormBtn() {
   async function onSubmit(values: formSchemaType) {
     try {
       await CreateForm(values);
+      toast({
+        title: "Success",
+        description: "Form Created Successfully"
+      });
     } catch (error) {
       toast({
         title: "Error",
@@ -93,9 +96,9 @@ function CreateFormBtn() {
       </Form>
       <DialogFooter>
         <Button 
-          onClick={() => {
-            form.handleSubmit(onSubmit); 
-          }}
+          onClick={
+            form.handleSubmit(onSubmit)
+          }
           disabled={form.formState.isSubmitting} 
           className="w-full mt-4"
         >
