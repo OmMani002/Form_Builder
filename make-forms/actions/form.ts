@@ -11,6 +11,8 @@ export async function GetFormStats() {
     const user = await currentUser();
     if(!user){
         throw new UserNotFoundErr()
+        // console.log(user)
+        // return
     }
 
     const stats = await prisma.form.aggregate({
@@ -46,8 +48,26 @@ export async function CreateForm(data: formSchemaType) {
         throw new Error("form not valid")
     }
     const user = await currentUser();
+    
     if(!user){
         throw new UserNotFoundErr();
     }
+
+    const {name, description} = data;
+
+    const form = await prisma.form.create({
+        data: {
+            userId: user.id,
+            name,
+            description
+        }
+    })
+
+    if(!form){
+        throw new Error("Something went wrong")
+    }
+
+    return form.id
+
 }
 

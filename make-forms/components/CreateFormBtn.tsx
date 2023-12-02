@@ -38,11 +38,12 @@ function CreateFormBtn() {
 
   async function onSubmit(values: formSchemaType) {
     try {
-      await CreateForm(values);
+      const formId = await CreateForm(values);
       toast({
         title: "Success",
         description: "Form Created Successfully"
       });
+      console.log("FORM ID", formId); 
     } catch (error) {
       toast({
         title: "Error",
@@ -55,7 +56,7 @@ function CreateFormBtn() {
   
   return <Dialog>
     <DialogTrigger asChild>
-      <Button>Create new Form</Button>
+      <Button className="">Create new Form</Button>
     </DialogTrigger>
     <DialogContent>
       <DialogHeader>
